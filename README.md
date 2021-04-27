@@ -6,7 +6,7 @@ This repository is by
 and [J. Zico Kolter](https://zicokolter.com)
 and contains the [PyTorch](https://pytorch.org) source code to
 reproduce the experiments in our paper
-"[DC3: A learning method for optimization with hard constraints](https://openreview.net/forum?id=V1ZHVxJ6dSS)."
+"[DC3: A learning method for optimization with hard constraints](https://arxiv.org/abs/2104.12225)."
 
 If you find this repository helpful in your publications,
 please consider citing our paper.
