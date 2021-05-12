@@ -278,37 +278,6 @@ def eval_net(data, X, Ytarget, solver_net, args, prefix, stats):
 
     return stats
 
-
-def get_test_results(data, args, Yvalid, Ytest, Yvalid_precorr=None, Ytest_precorr=None):
-    eps_converge = args['gradEpsConverge']
-    results = {}
-    results['valid_obj_val'] = data.obj_fn(Yvalid).detach().cpu().numpy()
-    results['valid_ineq_max'] = torch.max(data.ineq_dist(data.validX, Yvalid), dim=1)[0].detach().cpu().numpy()
-    results['valid_ineq_mean'] = torch.mean(data.ineq_dist(data.validX, Yvalid), dim=1).detach().cpu().numpy()
-    results['valid_eq_num_viol_0'] = torch.sum(data.ineq_dist(data.validX, Yvalid) > eps_converge,
-                                               dim=1).detach().cpu().numpy()
-    results['valid_eq_num_viol_1'] = torch.sum(data.ineq_dist(data.validX, Yvalid) > 10 * eps_converge,
-                                               dim=1).detach().cpu().numpy()
-    results['valid_eq_num_viol_2'] = torch.sum(data.ineq_dist(data.validX, Yvalid) > 100 * eps_converge,
-                                               dim=1).detach().cpu().numpy()
-    results['valid_eq_max'] = torch.max(torch.abs(data.eq_resid(data.validX, Yvalid)), dim=1)[0].detach().cpu().numpy()
-
-    if Yvalid_precorr is not None:
-        results['valid_correction_dist'] = torch.norm(Yvalid - Yvalid_precorr, dim=1).detach().cpu().numpy()
-    results['test_obj_val'] = data.obj_fn(Ytest).detach().cpu().numpy()
-    results['test_ineq_max'] = torch.max(data.ineq_dist(data.testX, Ytest), dim=1)[0].detach().cpu().numpy()
-    results['test_ineq_mean'] = torch.mean(data.ineq_dist(data.testX, Ytest), dim=1).detach().cpu().numpy()
-    results['test_eq_num_viol_0'] = torch.sum(data.ineq_dist(data.testX, Ytest) > eps_converge,
-                                              dim=1).detach().cpu().numpy()
-    results['test_eq_num_viol_1'] = torch.sum(data.ineq_dist(data.testX, Ytest) > 10 * eps_converge,
-                                              dim=1).detach().cpu().numpy()
-    results['test_eq_num_viol_2'] = torch.sum(data.ineq_dist(data.testX, Ytest) > 100 * eps_converge,
-                                              dim=1).detach().cpu().numpy()
-    results['test_eq_max'] = torch.max(torch.abs(data.eq_resid(data.testX, Ytest)), dim=1)[0].detach().cpu().numpy()
-    if Ytest_precorr is not None:
-        results['test_correction_dist'] = torch.norm(Ytest - Ytest_precorr, dim=1).detach().cpu().numpy()
-    return results
-
 # Used only at test time, so let PyTorch avoid building the computational graph
 def grad_steps_all(data, X, Y, args):
     take_grad_steps = args['useTestCorr']
