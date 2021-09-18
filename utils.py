@@ -1023,7 +1023,7 @@ class ACOPFProblem:
         ppc['bus'][:,idx_bus.VMAX] = ppc['bus'][:,idx_bus.VMAX] - self.EPS_INTERIOR
 
         # Solver options
-        ppopt = ppoption.ppoption(OPF_ALG=540, VERBOSE=0, OPF_VIOLATION=tol)  # MIPS PDIPM
+        ppopt = ppoption.ppoption(OPF_ALG=560, VERBOSE=0, OPF_VIOLATION=tol)  # MIPS PDIPM
 
         Y = []
         total_time = 0
@@ -1033,7 +1033,7 @@ class ACOPFProblem:
             ppc['bus'][:, idx_bus.QD] = X_np[i, self.nbus:] * self.baseMVA
 
             start_time = time.time()
-            my_result = opf(ppc)
+            my_result = opf(ppc, ppopt)
             end_time = time.time()
             total_time += (end_time - start_time)
 
